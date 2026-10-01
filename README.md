@@ -1,6 +1,6 @@
 # KIVI: 2-Bit KV-Cache Quantization for LLaMA (7B & 13B)
 
-Implements and evaluates **KIVI** — a training-free, 2-bit KV-cache quantization scheme applied to LLaMA-2 7B and 13B.
+Implements and evaluates **KIVI** ([Liu et al., ICML 2024](https://arxiv.org/abs/2402.02750)) — a training-free, 2-bit KV-cache quantization scheme — applied to LLaMA-2 7B and 13B.
 
 **Key idea:** Replace full-precision (FP16) attention key-value tensors with 2-bit group-quantized representations, keeping a small residual buffer of recent full-precision tokens. No retraining required.
 
@@ -42,6 +42,12 @@ kivi-kv-cache-quantization/
 ├── report.pdf                team report
 └── requirements.txt
 ```
+
+## Reference
+
+This project implements the method from:
+
+Zirui Liu, Jiayi Yuan, Hongye Jin, Shaochen (Henry) Zhong, Zhaozhuo Xu, Vladimir Braverman, Beidi Chen, Xia Hu. *KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache.* ICML 2024. [arXiv:2402.02750](https://arxiv.org/abs/2402.02750) · [official code](https://github.com/jy-yuan/KIVI)
 
 ## Running
 
