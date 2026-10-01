@@ -1,0 +1,10 @@
+{
+  "baseline_EM": 0.22,
+  "kivi_EM": 0.2,
+  "consistency": 0.78,
+  "baseline_to_kivi_fail": 0.12,
+  "token_match": {
+    "mean": 0.23544388716206818,
+    "std": 0.20986374296950794
+  }
+}

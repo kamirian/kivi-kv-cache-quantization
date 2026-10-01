@@ -1,0 +1,13 @@
+{
+  "baseline_vs_gt_f1_raw": 0.39650578965684163,
+  "baseline_vs_gt_f1_robust": 0.546092083657781,
+  "baseline_vs_gt_rouge": 0.3961116995438546,
+  "baseline_vs_gt_bert": 0.8860922055244446,
+  "kivi_vs_gt_f1_raw": 0.38288205602078706,
+  "kivi_vs_gt_f1_robust": 0.5239853446086293,
+  "kivi_vs_gt_rouge": 0.3861149591643209,
+  "kivi_vs_gt_bert": 0.8819138948917389,
+  "bk_token_match": 0.7023196213134356,
+  "bk_rouge": 0.7887830043963924,
+  "bk_bert": 0.9619058148860932
+}

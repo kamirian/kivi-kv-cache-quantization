@@ -1,0 +1,8 @@
+# KIVI notebook (needs a CUDA GPU and a Hugging Face token with LLaMA-2 access)
+torch
+transformers
+huggingface_hub
+datasets
+numpy
+rouge-score
+bert-score
