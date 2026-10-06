@@ -4,7 +4,7 @@ Implements and evaluates **KIVI** ([Liu et al., ICML 2024](https://arxiv.org/abs
 
 **Key idea:** Replace full-precision (FP16) attention key-value tensors with 2-bit group-quantized representations, keeping a small residual buffer of recent full-precision tokens. No retraining required.
 
-This was my individual contribution to a team course project on KV-cache efficiency methods (CMSC 723, Graduate NLP). Team: Saketh Akella, Kiyan Amirian, Nicholas Forman, Helia Hosseini, Hengyuan Qi. The full team report, which also covers H2O, Streaming-LLM, ZipCache, and StreamingSliding, is included as `report.pdf`.
+This was my contribution to a team course project on KV-cache efficiency methods (CMSC 723, Graduate NLP), which I led. Team: Kiyan Amirian, Nicholas Forman, Helia Hosseini, Hengyuan Qi. The full team report, which also covers Streaming-LLM, ZipCache, and StreamingSliding, is included as `report.pdf`.
 
 ---
 
