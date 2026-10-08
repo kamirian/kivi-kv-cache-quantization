@@ -19,7 +19,7 @@ This was my contribution to a team course project on KV-cache efficiency methods
 
 | Benchmark | Model | Metric |
 |-----------|-------|--------|
-| CNN/DailyMail | LLaMA-2 7B | ROUGE-L, BERTScore, token match rate |
+| CNN/DailyMail | LLaMA-2 7B | ROUGE-L, BERTScore, token match rate, sentence compliance, entity hallucination rate |
 | GSM8K | LLaMA-2 13B | Exact match accuracy |
 | CoQA | LLaMA-2 7B | F1 (raw and robust), ROUGE-L, BERTScore |
 
