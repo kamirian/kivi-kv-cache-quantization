@@ -194,16 +194,19 @@ class LlamaAttentionWithKIVI(nn.Module):
 
             else:
                 # ---- DECODE PHASE ----
+                # Append the new token to each KV head's cache exactly once
+                for kv_head_idx in range(self.num_key_value_heads):
+                    head_key   = key_states[0, kv_head_idx, :, :].contiguous()
+                    head_value = value_states[0, kv_head_idx, :, :].contiguous()
+                    self.kivi_cache[kv_head_idx].update(head_key, head_value)
+
+                # Each query head attends to the cache of its KV head (GQA)
                 attn_outputs = []
 
                 for q_head_idx in range(self.num_heads):
                     kv_head_idx = q_head_idx // self.num_key_value_groups
 
                     head_query = query_states[0, q_head_idx, :, :].contiguous()
-                    head_key   = key_states[0, kv_head_idx, :, :].contiguous()
-                    head_value = value_states[0, kv_head_idx, :, :].contiguous()
-
-                    self.kivi_cache[kv_head_idx].update(head_key, head_value)
 
                     head_output = self.kivi_cache[kv_head_idx].compute_attention(
                         head_query,
