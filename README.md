@@ -4,6 +4,16 @@ An implementation of **KIVI** ([Liu et al., 2024, arXiv:2402.02750](https://arxi
 
 This was my part of a team course project on KV-cache optimization (CMSC 723, Graduate NLP, University of Maryland), which I led. Team: Kiyan Amirian, Nicholas Forman, Helia Hosseini, Hengyuan Qi. I implemented and evaluated KIVI; the team report (`report.pdf`) also covers StreamingLLM and a sliding-window cache (Nicholas Forman) and ZipCache (Helia Hosseini).
 
+## How KIVI works (as implemented here)
+
+![KIVI key and value cache quantization](figures/kivi_schematic.png)
+
+*KIVI in this repository (`kivi/quantization.py`, `kivi/cache.py`, `kivi/attention.py`), following Liu et al. (2024). Keys are quantized per channel: tokens are grouped G = 32 at a time and each channel of each token group gets its own scale and zero-point. Values are quantized per token: each token's 128-channel head vector is split into groups of G = 32 channels, each with its own scale and zero-point. The most recent tokens stay in full precision. For values this residual is a sliding window of R = 128 tokens; for keys the residual collects new tokens and is quantized all at once when it reaches R = 128. After prefill, this code keeps l mod G prompt keys in full precision, where Algorithm 1 of the paper keeps l mod R. The quantization levels are stored in floating-point tensors (no bit-packing), so memory savings are computed, not measured.*
+
+![KIVI, StreamingLLM and ZipCache](figures/method_comparison.png)
+
+*KIVI implemented in this repository; StreamingLLM (Nicholas Forman) and ZipCache (Helia Hosseini) implemented by teammates (see report). StreamingLLM (Xiao et al., 2023, [arXiv:2309.17453](https://arxiv.org/abs/2309.17453)) keeps a few initial "attention sink" tokens and a rolling window of recent tokens and evicts the rest. ZipCache (He et al., 2024, [arXiv:2405.14256](https://arxiv.org/abs/2405.14256)) ranks tokens by a normalized attention score and quantizes salient tokens at a higher bit-width than the rest.*
+
 ## Results
 
 ![FP16 baseline vs KIVI 2-bit on three benchmarks, and KV-cache size](figures/results_summary.png)
@@ -31,16 +41,6 @@ Sources: `results/results_cnn_dm_7b_n100.json`, `results/results_gsm8k_13b_n50.j
 * **Measured GPU peak memory** (`torch.cuda.max_memory_allocated`): this implementation stores the 2-bit levels in floating-point tensors (no bit-packing) and dequantizes the cache before attention, so it does not reduce measured memory. On CNN/DM the mean per-sample peak is 26,243 MB for the baseline and 26,911 MB for KIVI.
 
 Comparisons with StreamingLLM and ZipCache are in `report.pdf`. They are not repeated here because those methods were run separately by teammates with their own code and settings, and the report's tables combine different sample counts.
-
-## How KIVI works (as implemented here)
-
-![KIVI key and value cache quantization](figures/kivi_schematic.png)
-
-*KIVI in this repository (`kivi/quantization.py`, `kivi/cache.py`, `kivi/attention.py`), following Liu et al. (2024). Keys are quantized per channel: tokens are grouped G = 32 at a time and each channel of each token group gets its own scale and zero-point. Values are quantized per token: each token's 128-channel head vector is split into groups of G = 32 channels, each with its own scale and zero-point. The most recent tokens stay in full precision. For values this residual is a sliding window of R = 128 tokens; for keys the residual collects new tokens and is quantized all at once when it reaches R = 128. After prefill, this code keeps l mod G prompt keys in full precision, where Algorithm 1 of the paper keeps l mod R. The quantization levels are stored in floating-point tensors (no bit-packing), so memory savings are computed, not measured.*
-
-![KIVI, StreamingLLM and ZipCache](figures/method_comparison.png)
-
-*KIVI implemented in this repository; StreamingLLM (Nicholas Forman) and ZipCache (Helia Hosseini) implemented by teammates (see report). StreamingLLM (Xiao et al., 2023, [arXiv:2309.17453](https://arxiv.org/abs/2309.17453)) keeps a few initial "attention sink" tokens and a rolling window of recent tokens and evicts the rest. ZipCache (He et al., 2024, [arXiv:2405.14256](https://arxiv.org/abs/2405.14256)) ranks tokens by a normalized attention score and quantizes salient tokens at a higher bit-width than the rest.*
 
 ## Evaluation
 
