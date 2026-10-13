@@ -11,12 +11,3 @@ venv/
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
-
-# Teammate KV-cache implementations (separate team project)
-KV_cashe/
-
-# Already a separate repo
-convexhull_ordering/
-
-# Data directories (not tracked — provide your own)
-image_classification/data/

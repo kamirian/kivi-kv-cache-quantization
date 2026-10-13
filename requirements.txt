@@ -1,8 +1,11 @@
 # KIVI notebook (needs a CUDA GPU and a Hugging Face token with LLaMA-2 access)
 torch
-transformers
+transformers==4.57.6
 huggingface_hub
 datasets
 numpy
 rouge-score
 bert-score
+matplotlib
+accelerate
+sentencepiece
