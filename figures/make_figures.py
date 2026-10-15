@@ -201,7 +201,7 @@ def formula_panel(ax):
     ]
     for i, t in enumerate(lines):
         ax.text(0.07, 0.66 - i * 0.17, t, fontsize=12, va="center")
-    ax.text(0.6, 0.47, f"G = {G}, R = {R} (kivi/attention.py; same as the KIVI paper)\n"
+    ax.text(0.55, 0.47, f"G = {G}, R = {R} (kivi/attention.py; same as the KIVI paper)\n"
             "one cache per layer and per KV head\n"
             "prefill attention uses the exact FP16 keys and values;\n"
             "decoding dequantizes the cache, then runs standard attention",
@@ -334,7 +334,7 @@ def figure_results():
         ax.text(x, max(b, k) * 1.12 + 25, f"{b / k:.1f}x smaller", ha="center", fontsize=11, weight="bold")
     ax.set_xticks(list(xs))
     ax.set_xticklabels([f"{n}\n({'13B' if n == 'GSM8K' else '7B'})" for n in names])
-    ax.set_ylabel("MB per prompt (mean)")
+    ax.set_ylabel("MiB per prompt (mean)")
     ax.set_ylim(0, max(bvals) * 1.3 + 50)
     ax.set_title("Theoretical packed KV-cache size\n(not measured GPU memory)", fontsize=12)
     ax.legend(frameon=False, fontsize=11, loc="upper right")
@@ -363,7 +363,7 @@ def figure_workflow():
         ("3. Generation",
          "greedy decoding, batch 1\nFP16 baseline model,\nthen KIVI model\n(same weights, attention\nlayers replaced)"),
         ("4. Scoring",
-         "each output vs reference\n(ROUGE-L, BERTScore,\nF1, exact match)\nKIVI vs baseline (token\nmatch, ROUGE-L, BERTScore)"),
+         "each output vs reference\n(ROUGE-L, BERTScore,\nF1, exact match)\nKIVI vs baseline (token\nmatch, ROUGE-L, BERTScore)\nadded: sentence compliance,\nentity flag rate (CNN/DM),\nrobust F1 (CoQA)"),
         ("5. Saved outputs",
          "results/\nexamples_*: per-example\nresults_*: aggregates\nmemory_*: KV size and\npeak GPU memory"),
     ]

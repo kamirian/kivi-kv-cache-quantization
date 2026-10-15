@@ -37,8 +37,8 @@ Sources: `results/results_cnn_dm_7b_n100.json`, `results/results_gsm8k_13b_n50.j
 
 **Memory.** Two different quantities are saved in `results/memory_*.json`, and they should not be mixed:
 
-* **Theoretical packed KV-cache size** (figure, right panel): the cache size at the end of each generation, counting quantized values at 2 bits, plus the FP16 residual tokens and the FP16 scales and zero-points. Mean per prompt, FP16 vs KIVI: 501.6 vs 133.2 MB (CNN/DM), 205.1 vs 94.7 MB (GSM8K), 212.8 vs 71.2 MB (CoQA). The reduction is well below 16/2 = 8 times because every head keeps up to 128 recent tokens in FP16 and stores an FP16 scale and zero-point for every 32 values, and the prompts here are only a few hundred tokens long.
-* **Measured GPU peak memory** (`torch.cuda.max_memory_allocated`): this implementation stores the 2-bit levels in floating-point tensors (no bit-packing) and dequantizes the cache before attention, so it does not reduce measured memory. On CNN/DM the mean per-sample peak is 26,243 MB for the baseline and 26,911 MB for KIVI.
+* **Theoretical packed KV-cache size** (figure, right panel): the cache size at the end of each generation, counting quantized values at 2 bits, plus the FP16 residual tokens and the FP16 scales and zero-points. Mean per prompt, FP16 vs KIVI: 501.6 vs 133.2 MiB (CNN/DM), 205.1 vs 94.7 MiB (GSM8K), 212.8 vs 71.2 MiB (CoQA). The reduction is well below 16/2 = 8 times because every head keeps up to 128 recent tokens in FP16 and stores an FP16 scale and zero-point for every 32 values, and the prompts here are only a few hundred tokens long.
+* **Measured GPU peak memory** (`torch.cuda.max_memory_allocated`): this implementation stores the 2-bit levels in floating-point tensors (no bit-packing) and dequantizes the cache before attention, so it does not reduce measured memory. On CNN/DM the mean per-sample peak is 26,243 MiB for the baseline and 26,911 MiB for KIVI.
 
 Comparisons with StreamingLLM and ZipCache are in `report.pdf`. They are not repeated here because those methods were run separately by teammates with their own code and settings, and the report's tables combine different sample counts.
 
